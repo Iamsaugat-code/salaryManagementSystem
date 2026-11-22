@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="en" class="overflow-y-scroll">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    />
+    <link rel="stylesheet" href="/static/src/output.css" />
+  </head>
+  <body class="m-0 overflow-x-hidden">
+    <div class="flex">
+      <!-- navigation bar  -->
+      <div
+        id="nav"
+        class="w-[23%] h-screen relative border pr-6 pl-9 pt-14 pb-20 bg-slate-800 text-white"
+      >
+        <h2 class="labels mt-4 text-2xl font-bold">Logo</h2>
+        <a
+          href="{{url_for('home')}}"
+          class="mt-7 text-[18px] flex items-center gap-3 hover:rounded-md hover:bg-slate-500 px-2 py-3"
+        >
+          <i class="fa-solid fa-table-cells-large"></i>
+          <span class="labels">Dashboard</span>
+        </a>
+        <div class="px-2 py-3">
+          <button id="menubtn" class="text-[18px] flex items-center gap-3">
+            <i class="fa-solid fa-file-invoice-dollar"></i>
+            <span class="labels">Salary ▾</span>
+          </button>
+          <div id="menus" class="hidden">
+            <a
+              href="{{url_for('salary_types')}}"
+              class="text-[16px] flex items-center gap-3 hover:rounded-md hover:bg-slate-500 px-3 mt-1 py-2"
+            >
+              <i class="fa-solid fa-money-bill-1-wave"></i>
+              <span class="labels">Add Salary type</span>
+            </a>
+            <a
+              href="{{url_for('paid_salary')}}"
+              class="text-[16px] flex items-center gap-3 hover:rounded-md hover:bg-slate-500 px-3 py-2"
+            >
+              <i class="fa-solid fa-hand-holding-dollar"></i>
+              <span class="labels">Paid Salary</span>
+            </a>
+            <a
+              href="{{url_for('view_paid')}}"
+              class="text-[16px] flex items-center gap-3 hover:rounded-md hover:bg-slate-500 px-3 py-2"
+            >
+              <i class="fa-solid fa-eye"></i>
+              <span class="labels">View </span>
+            </a>
+          </div>
+        </div>
+
+        <div class="px-2 py-3">
+          <button
+            id="menubtn2"
+            class="text-[18px] border-white flex items-center gap-3"
+          >
+            <i class="fa-solid fa-user"></i>
+            <span class="labels">Employees ▾</span>
+          </button>
+          <div id="menu" class="hidden">
+            <a
+              href="{{url_for('add_employe')}}"
+              class="text-[16px] flex items-center gap-3 rounded-md bg-slate-500 px-3 mt-1 py-2"
+            >
+              <i class="fa-solid fa-user-plus"></i>
+              <span class="labels">Add Employees</span></a
+            >
+            <a
+              href=""
+              class="text-[16px] flex items-center gap-3 hover:rounded-md hover:bg-slate-500 px-3 py-2"
+            >
+              <i class="fa-solid fa-eye"></i>
+              <span class="labels">Employees Details</span></a
+            >
+          </div>
+        </div>
+      </div>
+
+      <!--  -->
+
+      <div class="w-full">
+        <div
+          class="w-full pl-3 pr-10 h-[75px] border-b-[1px] border-slate-100 flex items-center justify-between"
+        >
+          <div class="text-2xl">
+            <button id="togglebtn" class="p-2">
+              <i class="fa-solid fa-bars"></i>
+            </button>
+          </div>
+          <div class="absolute right-20 text-xl flex items-center gap-3">
+            <h2 class="font-semibold capitalize">{{current_user}}</h2>
+            <div
+              class="h-[35px] w-[35px] rounded-full bg-sky-100 flex items-center justify-center"
+            >
+              <i class="fa-solid fa-user text-blue-700"></i>
+            </div>
+          </div>
+        </div>
+        <div class="px-10 mt-4 py-2 w-fit border-b">
+          <h2 class="font-bold text-2xl leading-9">Edit Employees</h2>
+        </div>
+        <div>
+             {% with messages = get_flashed_messages(with_categories=true) %}
+                {%  for category,message in messages %}
+              <div class="text-[15px] mt-4 flex items-center justify-center gap-3
+              {{ 'text-red-500' if category == 'error' else 'text-green-600' }}">
+              <i class="fa-solid {{ 'fa-circle-exclamation' if category == 'error' else 'fa-circle-check' }}"></i>
+               {{ message }}
+               </div>
+                {% endfor %}
+                {% endwith %}
+          <form action="{{url_for('update_emp')}}" method="post" class="py-14 px-18">
+            <input type="hidden" name="emp_id" value="{{ emp_id }}" id="">
+            <div class="w-ful flex items-center gap-8">
+              <div class="w-[33%]">
+                <div class="font-semibold flex items-center gap-3">
+                  <i class="fa-solid fa-user text-[20px] text-blue-500"></i>
+                  <h3 class="font-serif">Full Name</h3>
+                </div>
+                <div
+                  class="bg-white px-3 py-2.5 border-[2px] border-slate-200 rounded-md mt-2 flex items-center justify-center gap-1"
+                >
+                  <input
+                    type="text"
+                    name="named"
+                    required
+                    value="{{request.form.get('named',data[0])}}"
+                    class="w-full outline-none"
+                    placeholder=" Enter the username"
+                    autocomplete="off"
+                  />
+                  <div>
+                    <i class="fa-solid fa-user text-slate-400"></i>
+                  </div>
+                </div>
+              </div>
+
+              <div class="w-[33%]">
+                <div class="font-semibold flex items-center gap-3">
+                  <i class="fa-solid fa-envelope mt-1 text-red-400"></i>
+                  <h3 class="mt-1 font-serif">Gmail\emali</h3>
+                </div>
+                <div
+                  class="bg-white mt-2 px-3 py-2 border-[2px] border-slate-200 rounded-md flex items-center justify-center gap-1 {{ 'border-red-300' if feild_e=='gmail' else  'border-slate-200' }}"
+                >
+                  <input
+                    type="text"
+                    name="email"
+                    required
+                    value="{{request.form.get('email',data[2])}}"
+                    placeholder="Enter the Gmail"
+                    autocomplete="off"
+                    class="w-full outline-none"
+                  />
+                  <div>
+                    <i class="fa-solid fa-envelope text-slate-400"></i>
+                  </div>
+                </div>
+              </div>
+
+              <div class="w-[33%]">
+                <div class="font-semibold flex items-center gap-3">
+                  <i class="fa-solid fa-phone text-red-500"></i>
+                  <h3 class="mt-1 font-serif">Phone</h3>
+                </div>
+                <div
+                  class="bg-white mt-2 py-2 px-3 border-[2px] border-slate-200 rounded-md flex items-center justify-center gap-1 {{ 'border-red-300' if feild_e=='phone' else  'border-slate-200' }}"
+                >
+                  <input
+                    type="text"
+                    name="phone"
+                    maxlength="10"
+                    placeholder="Enter the Number"
+                    pattern="^9[78]\d{8}$"
+                    oninput="this.value = this.value.replace(/[^0-9.]/g, '')"
+                    autocomplete="off"
+                    required
+                    value="{{request.form.get('phone',data[1])}}"
+                    class="w-full outline-none"
+                  />
+                  <div>
+                    <i class="fa-solid fa-phone text-slate-400"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-10 w-ful flex items-center gap-8">
+              <div class="w-[31%]">
+                <div class="font-semibold flex items-center gap-3">
+                  <i
+                    class="fa-solid fa-person-half-dress text-blue-500 text-2xl"
+                  ></i>
+                  <h3 class="mt-1 font-serif">Gender</h3>
+                </div>
+                <select
+                  name="gender"
+                  id="day"
+                  class="text-[15px] w-full rounded-md p-2 mt-3 outline-none border-[2px] border-slate-200"
+                >
+                  <option value="">Gender</option>
+                  <option value="male" {% if request.form.get('gender', data[3]) == 'male'  %} selected {% endif %}>male</option>
+                  <option value="female" {% if request.form.get('gender', data[3]) == 'female' %} selected {% endif %} >female</option>
+                  <option value="other" {% if request.form.get('gender', data[3]) == 'other' %} selected {% endif %} >other</option>
+                </select>
+              </div>
+
+              <div class="w-[31%]">
+                <div class="font-semibold flex items-center gap-3">
+                  <i
+                    class="fa-solid fa-money-check-dollar text-blue-500 text-xl"
+                  ></i>
+                  <h3 class="mt-1 font-serif">Salary Types</h3>
+                </div>
+                <select
+                  name="salarytypes"
+                  id="salarytypes"
+                  class="text-[15px] w-full rounded-md p-2 mt-3 outline-none border-[2px] border-slate-200"
+                >
+                  <option value="">Select types</option>
+                  {% for i in results %}
+                  <option value="{{i[0]}}" {% if request.form.get('salarytypes', data[4]) ==i[0] %} selected {% endif %}>{{i[0]}}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            
+            </div>
+
+             <div class=" py-[5px] mt-3 flex items-center justify-center">
+                <button class="bg-blue-600 mt-6 hover:bg-blue-700
+                       text-white rounded-lg px-8 py-3 flex items-center justify-center gap-2 ">
+                    <h2 class="font-semibold text-xl">Save</h2>
+                    <i class="fa-solid fa-floppy-disk text-xl"></i>
+
+                </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <script src="/static/home.js"></script>
+  </body>
+</html>

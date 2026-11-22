@@ -1,0 +1,143 @@
+
+
+<!DOCTYPE html>
+<html lang="en" class="overflow-y-scroll">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AddSalaryTypes</title>
+    <link rel="stylesheet"
+     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="/static/src/output.css">
+</head>
+<body class="m-0 overflow-x-hidden">
+    
+
+    <div class="flex ">
+        <!-- navigation bar  -->
+       <div id="nav" class="w-[23%] h-screen relative border pr-6 pl-9 pt-14 pb-20 bg-slate-800 text-white">
+
+            <h2 class="labels mt-4 text-2xl font-bold">Logo</h2>
+            <a href="{{url_for('home')}}" class="mt-7 text-[18px]  flex items-center gap-3 hover:rounded-md hover:bg-slate-500 px-2 py-3 ">
+                <i class="fa-solid fa-table-cells-large"></i>
+               <span class="labels">Dashboard</span>
+            </a>
+            <div class="px-2 py-3 ">
+                <button id="menubtn" class="text-[18px]  flex items-center gap-3"><i class="fa-solid fa-file-invoice-dollar"></i> <Span class="labels">Salary ▾</Span></button>
+                <div id="menus" class="show">
+                 <a href="{{url_for('salary_types')}}" class=" text-[16px]  flex items-center gap-3 rounded-md bg-slate-500 px-3 mt-1 py-2 ">
+                <i class="fa-solid fa-money-bill-1-wave"></i>
+                <span class="labels">Add Salary type</span> </a>
+                 <a href="{{url_for('paid_salary')}}" class=" text-[16px]  flex items-center gap-3 hover:rounded-md hover:bg-slate-500 px-3  py-2 ">
+                 <i class="fa-solid fa-hand-holding-dollar"></i>
+                <Span class="labels">Paid Salary</Span> </a>
+                 <a href="{{url_for('view_paid')}}" class=" text-[16px]  flex items-center gap-3 hover:rounded-md hover:bg-slate-500 px-3  py-2 ">
+                <i class="fa-solid fa-eye"></i>
+                <Span class="labels">View </Span> </a>
+                </div>
+            </div>
+
+            <div class="px-2 py-3">
+                 <button id="menubtn2" class="text-[18px]  border-white flex items-center gap-3"><i class="fa-solid fa-user"></i> <Span class="labels">Employees ▾</Span></button>
+               <div id="menu" class="hidden">
+                 <a href="{{url_for('add_employe')}}" class=" text-[16px]  flex items-center gap-3 hover:rounded-md hover:bg-slate-500 px-3 mt-1 py-2 ">
+                <i class="fa-solid fa-user-plus"></i>
+               <Span class="labels">Add Employees</Span></a>
+                 <a href="" class=" text-[16px]  flex items-center gap-3 hover:rounded-md hover:bg-slate-500 px-3  py-2 ">
+                  <i class="fa-solid fa-eye"></i>
+                <Span class="labels">Employees Details</Span></a>
+                </div>
+            </div>
+        </div>
+
+        <!--  -->
+
+        <div class="w-full ">
+            <div class=" w-full pl-3 pr-10 h-[75px] border-b-[1px] border-slate-100 flex items-center justify-between">
+                <div class=" text-2xl ">
+                  <button id="togglebtn" class="p-2">
+                     <i class="fa-solid fa-bars"></i>
+                    </button>
+            </div>
+                <div class="absolute right-20 text-xl flex items-center gap-3">
+                     <h2 class=" font-semibold capitalize">{{current_user}}</h2>
+                    <div class="h-[35px] w-[35px] rounded-full bg-sky-100 flex items-center justify-center">
+                        <i class="fa-solid fa-user text-blue-700"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="px-10 mt-4 py-2 w-fit border-b">
+                <h2 class="font-bold text-2xl leading-9 "> Add Salary Types</h2>
+            </div>
+           <div class="flex items-center justify-center p-4  ">
+            <form action="{{url_for('add_salary')}}" method="post" class="px-10 py-14 w-[40%] border-[2px] border-slate-200 shadow-2xl rounded-2xl ">
+                <div class="font-semibold text-2xl">
+                <h2 class="text-center">
+                    Add Salary Type
+                </h2>
+                </div>
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                {%  for category,message in messages %}
+              <div class="text-[15px] mt-4 flex items-center justify-center gap-3
+              {{ 'text-red-500' if category == 'error' else 'text-green-600' }}">
+              <i class="fa-solid {{ 'fa-circle-exclamation' if category == 'error' else 'fa-circle-check' }}"></i>
+               {{ message }}
+               </div>
+                {% endfor %}
+                {% endwith %}
+                  <div class="mt-8 flex items-center gap-3">
+            <i class="fa-solid fa-file-invoice-dollar text-[20px] text-sky-600"></i>
+            <h3 class="text-[20px] font-serif">SalaryTypes</h3>
+          </div>
+            <div class="bg-white px-3 py-2.5  border-[2px] border-slate-200 rounded-md mt-2  flex items-center justify-center gap-1 ">
+              <input
+                type="text"
+                name="salary"
+                required value="{{request.form.get('salary','')}}"
+                class=" w-full outline-none"
+                placeholder="Enter Salary Types"
+                autocomplete="off"
+              />
+              <div>
+              <i class="fa-solid fa-file-invoice-dollar text-slate-400 "></i>
+              </div>
+            </div>
+              <div class="mt-8 flex items-center gap-3">
+            <i class="fa-solid fa-sack-dollar text-[20px] text-sky-600"></i>
+            <h3 class="text-[20px] font-serif">Amount</h3>
+          </div>
+            <div class="bg-white px-3 py-2.5  border-[2px] border-slate-200 rounded-md mt-2  flex items-center justify-center gap-1 ">
+              <input
+                type="text"
+                name="amount"
+                inputmode="deciaml"
+                pattern="^\d{1,10}(\.\d{1,2})?$"
+                oninput="this.value = this.value.replace(/[^0-9.]/g, '')"
+                required value="{{request.form.get('amount','')}}"
+                class="w-full outline-none "
+                placeholder=" Enter Amount"
+                autocomplete="off"
+              />
+              <div>
+              <i class="fa-solid fa-sack-dollar text-slate-400 "></i>
+              </div>
+            </div>
+
+            <div class=" py-[5px] flex items-center justify-center">
+                <button class="bg-blue-600 mt-6 hover:bg-blue-700
+                       text-white rounded-lg px-4 w-[75%] py-3 flex items-center justify-center gap-2 ">
+                    <h2 class="font-semibold text-xl">ADD</h2>
+                    <i class="fa-solid fa-plus text-xl"></i>
+                </button>
+            </div>
+            </form>
+           </div>
+          
+        </div>
+    </div>
+    <script src="/static/stypes.js">
+    </script>
+    
+</body>
+</html>
